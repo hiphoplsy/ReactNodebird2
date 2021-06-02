@@ -20,7 +20,7 @@ try {
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  resion: 'ap-northeast-2',
+  region: 'ap-northeast-2',
 })
 
 const upload = multer({
@@ -84,7 +84,7 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {  // POST
 
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => { // POST /post/images
   console.log(req.files);
-  res.json(req.files.map((v) => v.location));
+  res.json(req.files.map((v) => v.location.replace(/\original\//, '/thumb/')));
 });
 
 router.get('/:postId', async (req, res, next) => {  // GET /post/1/
